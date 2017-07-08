@@ -26,7 +26,7 @@ void SDALORCutOnEnergy::exec()
   const JPetLOR lor = (JPetLOR&) fReader->getData();
 
   //if( lor.getFirstHit().getEnergy() > fThresholdEnergy && lor.getSecondHit().getEnergy() > fThresholdEnergy && lor.getFirstHit().getEnergy() < upperThreshold && lor.getSecondHit().getEnergy() < upperThreshold)
-  if( lor.getFirstHit().getEnergy() > fThresholdEnergy && lor.getSecondHit().getEnergy() > fThresholdEnergy)
+  if( lor.getFirstHit().getEnergy() > fThresholdEnergy && lor.getSecondHit().getEnergy() > fThresholdEnergy && lor.getFirstHit().getEnergy() < 450 && lor.getSecondHit().getEnergy() < 450 )
 	{
 	  fWriter->write(lor);	
 	  fAboveThreshold++;
