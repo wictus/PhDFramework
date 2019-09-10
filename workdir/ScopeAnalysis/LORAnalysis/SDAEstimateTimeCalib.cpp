@@ -37,7 +37,7 @@ void SDAEstimateTimeCalib::end()
   const JPetParamBank& bank = getParamBank();
 	gStyle->SetOptFit(1);
 	TCanvas* c1 = new TCanvas();
-	TH1F* deltaT = new TH1F("timeDifference", "timeDifference", 1000, -5, 5);
+	TH1F* deltaT = new TH1F("timeDifference", "timeDifference", 200, -5, 5);
 	
 	for(int i = 0; i < bank.getScintillatorsSize(); i++)
 	{
@@ -48,7 +48,8 @@ void SDAEstimateTimeCalib::end()
 	  }
 	  
 	
-	TString title = "Time difference for" + bank.getScintillator(i).getID() ;
+	TString title = "Time difference for";
+	title+= bank.getScintillator(i).getID() ;
 	deltaT->SetTitle(title);
 	deltaT->Sumw2();
 	deltaT->Draw();

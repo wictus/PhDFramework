@@ -49,10 +49,11 @@ void SDAMatchHits::exec()
 
   	//get signal from entry
 	const JPetPhysSignal& signal = (JPetPhysSignal&) fReader->getData();
-
+// 	std::cout << signal.getPM().getID() << std::endl;
 	//put signal into fArray
 	fArray.push_back(signal);
 	currentTSlot = signal.getTSlotIndex();
+	
   }
 
   //stop when all events were processed
@@ -104,6 +105,7 @@ void SDAMatchHits::exec()
 	{
 		for( int PMIndex = 0; PMIndex < paramBank.getPMsSize(); PMIndex++)
 		{
+		      
 			if( (fSegragatedSignals[ stripeIndex ][ signalIndex ].getPM().getID() == paramBank.getPM(PMIndex).getID()) && PMIndex%2){
 				hit.setSignalA(fSegragatedSignals[ stripeIndex ][ signalIndex ]);
 				signalAset = true;
@@ -116,11 +118,9 @@ void SDAMatchHits::exec()
 			if( signalAset && signalBset )
 			{
 				hit.setScintillator(fSegragatedSignals[ stripeIndex ][ signalIndex ].getPM().getScin() );	
-				/*
-				std::cout << "PM left: " << hit.getSignalA().getPM().getID() << std::endl;
-				std::cout << "PM right: " << hit.getSignalB().getPM().getID() << std::endl;
-				*/
+				
 				fWriter->write(hit);	
+				fMatched++;
 				break;
 			}
               
@@ -146,7 +146,6 @@ void SDAMatchHits::exec()
 
 void SDAMatchHits::end()
 {
-	fMatched = fEventNb/2.0 - fNotMatched;
   	INFO(
 	Form("Matching complete \nAmount of fMatched hits: %d " , fMatched) );
 	double goodPercent = fNotMatched* 100.0 /fMatched ;
